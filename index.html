@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Para mi Albatàrrec</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: white; 
+      overflow-x: hidden;
+    }
+    .screen {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      flex-direction: column;
+    }
+    .active {
+      display: flex;
+    }
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+    .key {
+      background-color: white;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      font-size: 20px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.1);
+    }               
+    .key:hover {
+      background-color: #f0f0f0;
+      transform: translateY(-3px);
+    }
+    .input-display {
+      font-size: 24px;
+      margin-top: 20px;
+      letter-spacing: 8px;
+    }
+    .notepad {
+      background-color: #ffffff;
+      border: 3px solid #000000;
+      padding: 20px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      text-align: left;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      line-height: 1.6;
+      box-shadow: 8px 8px 15px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    .notepad h3 {
+      margin-top: 0;
+    }
+    .btn-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+    .btn {
+      background-color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+      border: 1px solid #ccc;
+    }
+    .btn:hover {
+      background-color: #ded8d8;
+      transform: translateY(-2px);
+    }
+
+    /* Estilo del botón de la Mixtape */
+    .btn-mixtape {
+      display: inline-block;
+      background-color: #ff4b5c;
+      color: white;
+      padding: 15px 25px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: bold;
+      margin: 20px 0;
+      box-shadow: 4px 4px 10px rgba(255, 75, 92, 0.3);
+      transition: all 0.3s ease;
+      border: 2px solid #000;
+    }
+    .btn-mixtape:hover {
+      background-color: #ffffff;
+      color: #ff4b5c;
+      transform: scale(1.05);
+    }
+
+    /* Carrusel */
+    .carousel {
+      position: relative;
+      width: 100%;
+      margin: 15px auto;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s ease-in-out;
+    }
+    .carousel-track img {
+      width: 100%;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 50%;
+      z-index: 10;
+    }
+    .carousel-btn.prev { left: 10px; }
+    .carousel-btn.next { right: 10px; }
+  </style>
+</head>
+<body>
+
+<div id="passwordScreen" class="screen active">
+  <h2>🔒 Ingresa la contraseña</h2>
+  <div class="input-display" id="inputDisplay">••••</div>
+  <div class="keypad">
+    <button class="key" onclick="enterDigit('1')">1</button>
+    <button class="key" onclick="enterDigit('2')">2</button>
+    <button class="key" onclick="enterDigit('3')">3</button>
+    <button class="key" onclick="enterDigit('4')">4</button>
+    <button class="key" onclick="enterDigit('5')">5</button>
+    <button class="key" onclick="enterDigit('6')">6</button>
+    <button class="key" onclick="enterDigit('7')">7</button>
+    <button class="key" onclick="enterDigit('8')">8</button>
+    <button class="key" onclick="enterDigit('9')">9</button>
+    <button class="key" onclick="checkPassword()">✔</button>
+    <button class="key" onclick="enterDigit('0')">0</button>
+    <button class="key" onclick="deleteLast()">⌫</button>
+  </div>
+</div>
+
+<div id="notepadScreen" class="screen">
+  <div class="notepad" id="page1">
+    <h3>📅 14 Febrero 2026</h3>
+    <h4>💌 Mi Querida Enchiladita</h4>
+    <p>Este es el primer día de San Valentín que pasamos juntos y te juro que no pudo haber mejor persona a mi lado.
+        Desde que te conocí, no ha habido ni un día en el que no haya querido encontrar una forma nueva para enamorarte.</p>
+    <p>Tu sonrisa me maravilla y tus manos son mi calma entera. No hay manera de describir lo que siento por ti. Nunca me había encontrado
+        tan sediento de la atención de alguien, tan ansioso por compartir cada momento contigo, tan feliz de simplemente existir a tu lado.
+        Eres mi alegría, mi paz, mi inspiración y mi amor más profundo.</p>
+    <p>Te amo no solo por quién eres, sino por lo que soy cuando estoy contigo. Porque contigo aprendí que amar no es solo decirlo, sino
+        demostrarlo con cada detalle, con cada mirada, con cada gesto. Y te prometo que cada día haré lo posible por seguir mereciendo tu amor.</p>
+<p>Gracias por existir, por ser tú, por hacerme sentir que el amor verdadero no es un sueño, sino una realidad que vive entre tus brazos.</p>
+<p>Con todo su corazón,</p>
+<p>tu gordito.</p>
+    <div class="btn-container">
+      <button class="btn" onclick="goBack()">⬅ Inicio</button>
+      <button class="btn" onclick="nextPage(2)">➡ Siguiente</button>
+    </div>
+  </div>
+
+  <div class="notepad" id="page2" style="display:none; text-align:center;">
+    <img src="juntitos.jpg" alt="Foto" style="width:90%; border-radius:15px; margin-bottom:15px;">
+    <p style="text-align:justify;">
+      El tiempo a tu lado aunque ha sido corto, me ha enseñado muchas cosas. Me ha enseñado a amar sin miedo, a confiar sin reservas,
+      a ser vulnerable sin temor. Me ha enseñado que el amor no es solo un sentimiento, sino una decisión diaria de cuidar, respetar
+      y valorar a la persona que tienes al lado y por eso, te prometo devotamente que te amaré cada día más, que te cuidaré con todo mi
+      ser, que te respetaré en cada paso de tu vida y que siempre valoraré el regalo que es tenerte a mi lado. Eres mi mayor bendición y
+      mi amor eterno.
+    </p>
+    <div class="btn-container">
+      <button class="btn" onclick="prevPage(1)">⬅ Anterior</button>
+      <button class="btn" onclick="nextPage(3)">➡ Siguiente</button>
+    </div>
+  </div>
+
+  <div class="notepad" id="page3" style="display:none; text-align:center;">
+    <h4>📸 Nuestros recuerdos</h4>
+    <div class="carousel">
+      <div class="carousel-track" id="carouselTrack">
+        <img src="picnic.jpg">
+        <img src="enlacama.jpg">
+        <img src="nosotros.jpg">
+        <img src="ennuestracita.jpg">
+      </div>
+      <button class="carousel-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+      <button class="carousel-btn next" onclick="moveSlide(1)">&#10095;</button>
+    </div>
+    <div class="btn-container">
+      <button class="btn" onclick="prevPage(2)">⬅ Anterior</button>
+      <button class="btn" onclick="nextPage(4)">➡ Siguiente</button>
+    </div>
+  </div>
+
+  <div class="notepad" id="page4" style="display:none; text-align:center;">
+    <h4>Un detallito más</h4>
+    <p>Sabes lo envidioso que soy con lo que amo. Pero si tengo que 
+        compartir lo que más amo con quien más amo, entonces no hay remedio. 
+        Eres mi fortaleza para ser una persona compartida, pero solo contigo, eh.</p>
+    
+    <a href="https://mewtru.com/mixtape/playback?v=r-3NvDp28U4%2CY_t2gNCXYbY%2CDLlDmax2Q_Y%2CYbWWQPbeBDk%2CM268Csnue9I&to=Al" 
+       target="_blank" 
+       class="btn-mixtape">
+       ✨ Pica aquí ✨
+    </a>
+
+    <div class="btn-container" style="justify-content: center; margin-top: 30px;">
+      <button class="btn" onclick="goBack()">Cerrar sesión</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const correctPassword = '2001';
+  let input = '';
+
+  function enterDigit(digit) {
+    if (input.length < 4) { input += digit; updateDisplay(); }
+  }
+  function deleteLast() {
+    input = input.slice(0, -1); updateDisplay();
+  }
+  function updateDisplay() {
+    document.getElementById('inputDisplay').textContent = input.padEnd(4, '•');
+  }
+  function checkPassword() {
+    if (input === correctPassword) {
+      document.getElementById('passwordScreen').classList.remove('active');
+      document.getElementById('notepadScreen').classList.add('active');
+      showPage(1);
+    } else {
+      alert('Contraseña incorrecta');
+      input = ''; updateDisplay();
+    }
+  }
+  function goBack() {
+    document.getElementById('notepadScreen').classList.remove('active');
+    document.getElementById('passwordScreen').classList.add('active');
+    input = ''; updateDisplay();
+  }
+  function showPage(n) {
+    document.querySelectorAll('.notepad').forEach(p => p.style.display = 'none');
+    document.getElementById('page' + n).style.display = 'block';
+  }
+  function nextPage(n) { showPage(n); }
+  function prevPage(n) { showPage(n); }
+
+  let currentSlide = 0;
+  function moveSlide(direction) {
+    const track = document.getElementById('carouselTrack');
+    const slides = track.children.length;
+    currentSlide = (currentSlide + direction + slides) % slides;
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+  }
+</script>
+
+</body>
+</html>
